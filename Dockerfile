@@ -3,7 +3,7 @@
 # luigid running on port 8082
 # --------------------------------------------------------------------------
 
-FROM python:alpine
+FROM python:3.6-alpine
 
 MAINTAINER  Tim Birkett <tim@birkett-bros.com> (@pysysops)
 
@@ -18,7 +18,9 @@ ARG gid=2101
 RUN addgroup -g ${gid} ${group} \
     && adduser -u ${uid} -G ${group} -D -s /bin/bash ${user}
 
-RUN pip install sqlalchemy luigi
+RUN pip install --upgrade pip \
+    && pip install --upgrade --force-reinstall setuptools \
+    && pip install --no-cache-dir sqlalchemy luigi
 
 RUN mkdir /etc/luigi
 ADD ./etc/luigi/logging.cfg /etc/luigi/
